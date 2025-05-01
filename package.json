@@ -11,8 +11,9 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build && cp _redirects dist/spa/_redirects",
-    "postinstall": "quasar prepare"
+    "build": "quasar build && node -e \"require('fs').copyFileSync('_redirects', 'dist/spa/_redirects')\"",
+    "postinstall": "quasar prepare",
+    "start": "quasar serve dist/spa --history"
   },
   "dependencies": {
     "axios": "^1.2.1",
