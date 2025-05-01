@@ -102,9 +102,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import ProductCard from 'components/ProductCard.vue'
 
 const router = useRouter()
+const $q = useQuasar()
 
 // 分类数据
 const categories = ref([

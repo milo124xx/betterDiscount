@@ -121,13 +121,13 @@
 
                                 <!-- 商品图片预览 -->
                                 <template v-if="productForm.images && productForm.images.length > 0">
-                                    <div v-for="(image, index) in previewImages.products" :key="index"
+                                    <div v-for="(image, i) in previewImages.products" :key="image"
                                         class="col-4 col-sm-3">
                                         <q-card class="image-preview-card">
                                             <q-img :src="image" style="height: 200px">
                                                 <div class="absolute-top-right q-pa-xs">
                                                     <q-btn round flat dense color="negative" icon="delete"
-                                                        @click="removeProductImage(index)" />
+                                                        @click="removeProductImage(null, i)" />
                                                 </div>
                                             </q-img>
                                         </q-card>
@@ -155,13 +155,13 @@
 
                                 <!-- 扫码直达图片预览 -->
                                 <template v-if="productForm.qrCodeImages && productForm.qrCodeImages.length > 0">
-                                    <div v-for="(image, index) in previewImages.qrCodes" :key="index"
+                                    <div v-for="(image, i) in previewImages.qrCodes" :key="image"
                                         class="col-4 col-sm-3">
                                         <q-card class="image-preview-card">
                                             <q-img :src="image" style="height: 200px">
                                                 <div class="absolute-top-right q-pa-xs">
                                                     <q-btn round flat dense color="negative" icon="delete"
-                                                        @click="removeQrCodeImage(index)" />
+                                                        @click="removeQrCodeImage(null, i)" />
                                                 </div>
                                             </q-img>
                                         </q-card>
@@ -249,7 +249,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { date } from 'quasar'
 
@@ -261,6 +261,16 @@ const showAddProductDialog = ref(false)
 const showAddArticleDialog = ref(false)
 const editingProduct = ref(null)
 const editingArticle = ref(null)
+
+// 文章表单
+const articleForm = reactive({
+    title: '',
+    description: '',
+    image: '',
+    category: '',
+    date: new Date().toISOString().split('T')[0],
+    views: 0
+})
 
 // 商品分类选项
 const categoryOptions = [
@@ -309,22 +319,6 @@ const previewImages = reactive({
     qrCodes: [] // 扫码直达图片预览
 })
 
-// 根据平台计算显示的字段
-const showFields = computed(() => {
-    const commonFields = ['title', 'category', 'addDate', 'promotionText', 'images', 'qrCodeImages', 'promotionLink']
-
-    switch (productForm.platform) {
-        case 'jd':
-            return [...commonFields, 'originalPrice', 'finalPrice', 'isDirectSale', 'coupon']
-        case 'taobao':
-            return [...commonFields, 'couponAmount', 'finalPrice']
-        case 'pdd':
-            return [...commonFields, 'originalPrice', 'finalPrice']
-        default:
-            return commonFields
-    }
-})
-
 // 监听添加商品对话框的显示状态
 watch(() => showAddProductDialog.value, (isVisible) => {
     if (isVisible) {
@@ -365,15 +359,15 @@ watch(() => productForm.qrCodeImages, (newImages) => {
 })
 
 // 删除商品图片
-function removeProductImage(index) {
-    productForm.images.splice(index, 1)
-    previewImages.products.splice(index, 1)
+function removeProductImage(_, arrayIndex) {
+    productForm.images.splice(arrayIndex, 1)
+    previewImages.products.splice(arrayIndex, 1)
 }
 
 // 删除扫码直达图片
-function removeQrCodeImage(index) {
-    productForm.qrCodeImages.splice(index, 1)
-    previewImages.qrCodes.splice(index, 1)
+function removeQrCodeImage(_, arrayIndex) {
+    productForm.qrCodeImages.splice(arrayIndex, 1)
+    previewImages.qrCodes.splice(arrayIndex, 1)
 }
 
 // 重置表单时的处理
@@ -547,14 +541,14 @@ async function handleProductSubmit() {
 
         // 添加商品图片
         if (productForm.images && productForm.images.length > 0) {
-            productForm.images.forEach((file, index) => {
+            productForm.images.forEach((file) => {
                 formData.append(`productImages`, file)
             })
         }
 
         // 添加扫码直达图片
         if (productForm.qrCodeImages && productForm.qrCodeImages.length > 0) {
-            productForm.qrCodeImages.forEach((file, index) => {
+            productForm.qrCodeImages.forEach((file) => {
                 formData.append(`qrCodeImages`, file)
             })
         }
