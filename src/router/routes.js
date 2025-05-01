@@ -11,6 +11,18 @@ const routes = [
         path: 'search', 
         component: () => import('pages/SearchResults.vue') 
       },
+      {
+        path: 'admin',
+        component: () => import('pages/AdminPage.vue'),
+        beforeEnter: (to, from, next) => {
+          // 这里可以添加更多的权限验证逻辑
+          if (localStorage.getItem('isAdmin')) {
+            next()
+          } else {
+            next('/')
+          }
+        }
+      }
     ]
   },
   {

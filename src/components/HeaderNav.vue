@@ -13,8 +13,11 @@
                         </template>
                     </q-input>
                 </div>
-                <q-btn v-if="!isHomePage" flat color="primary" icon="home" label="返回首页" @click="goHome"
-                    class="back-home-btn" />
+                <div class="nav-actions">
+                    <q-btn v-if="!isHomePage" flat color="primary" icon="home" label="返回首页" @click="goHome"
+                        class="back-home-btn" />
+                    <q-btn v-if="isAdmin" flat color="negative" icon="logout" label="退出登录" @click="handleLogout" />
+                </div>
             </div>
         </div>
     </header>
@@ -31,6 +34,8 @@ const searchText = ref('')
 
 // 计算当前是否在首页
 const isHomePage = computed(() => route.path === '/')
+// 计算当前是否是管理员
+const isAdmin = computed(() => route.path === '/admin')
 
 // 处理搜索
 function handleSearch() {
@@ -40,6 +45,12 @@ function handleSearch() {
             query: { q: searchText.value.trim() }
         })
     }
+}
+
+// 退出登录
+function handleLogout() {
+    localStorage.removeItem('isAdmin')
+    router.push('/')
 }
 
 // 返回首页
@@ -84,8 +95,10 @@ function goHome() {
             }
         }
 
-        .back-home-btn {
+        .nav-actions {
             margin-left: auto;
+            display: flex;
+            gap: 12px;
         }
     }
 }

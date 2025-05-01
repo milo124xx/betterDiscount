@@ -263,11 +263,15 @@ function goToAdmin() {
 
 function handleAdminLogin() {
   if (adminPassword.value === 'admin123') {
+    localStorage.setItem('isAdmin', 'true')  // 设置管理员状态
     showAdminDialog.value = false  // 关闭对话框
     adminPassword.value = ''  // 清空密码
     router.push('/admin')  // 跳转到后台管理页面
   } else {
-    alert('密码错误')
+    $q.notify({
+      type: 'negative',
+      message: '密码错误'
+    })
   }
 }
 </script>
