@@ -1,9 +1,5 @@
 <template>
-  <q-card
-    class="card-component category-card"
-    flat
-    @click="navigateToCategory"
-  >
+  <q-card class="card-component category-card" flat @click="navigateToCategory">
     <div class="card-content q-pa-md text-center">
       <div class="icon-container">
         <q-icon :name="category.icon" :class="`text-${category.color}`" />
@@ -95,6 +91,55 @@ function navigateToCategory() {
     font-weight: 600;
     margin-bottom: 8px;
     transition: color 0.3s ease;
+  }
+
+  // 移动端适配 - 平板尺寸
+  @media (max-width: 1023px) {
+    .icon-container {
+      margin-bottom: 12px;
+
+      .q-icon {
+        font-size: 42px;
+      }
+    }
+
+    .card-title {
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .card-description {
+      font-size: 0.8rem;
+    }
+
+    .card-content {
+      padding: 16px 12px !important;
+    }
+  }
+
+  // 移动端适配 - 手机尺寸
+  @media (max-width: 599px) {
+    .icon-container {
+      margin-bottom: 8px;
+
+      .q-icon {
+        font-size: 36px;
+      }
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .card-description {
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .card-content {
+      padding: 12px 8px !important;
+    }
   }
 }
 </style>

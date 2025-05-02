@@ -23,18 +23,28 @@
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
     <link rel="icon" type="image/ico" href="favicon.ico" />
-    
-    <!-- Google Analytics 初始化代码 - 确保在Vue应用加载前初始化 -->
-    <script>
-      // 预先定义gtag函数，避免'g'变量初始化问题
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      // 不立即发送页面浏览，留给vue-gtag处理
-      gtag('config', 'G-YYNLZMV2DL', { 'send_page_view': false });
-    </script>
-    <!-- Google Analytics -->
+
+    <!-- Google Analytics 标准集成方式 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YYNLZMV2DL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-YYNLZMV2DL')
+
+      // 添加路由跟踪支持函数
+      window.trackPageview = function (path, title) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'page_view', {
+            page_path: path,
+            page_title: title || document.title,
+            page_location: window.location.origin + path,
+          })
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- quasar:entry-point -->

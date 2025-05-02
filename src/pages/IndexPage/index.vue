@@ -11,8 +11,8 @@
             <span class="text-primary">精选分类</span>
             <small>探索精心策划的购物分类</small>
           </h2>
-          <div class="row q-col-gutter-xl">
-            <div class="col-md col-sm-6 col-xs-12" v-for="category in categories" :key="category.id">
+          <div class="categories-grid">
+            <div class="category-item" v-for="category in categories" :key="category.id">
               <CategoryCard :category="category" class="card-component" />
             </div>
           </div>

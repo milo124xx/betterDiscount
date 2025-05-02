@@ -8,11 +8,11 @@ export default ({ app, router }) => {
   // 使用已经在 index.html 中初始化的gtag
   app.use(VueGtag, {
     property: {
-      id: 'G-YYNLZMV2DL'
+      id: 'G-YYNLZMV2DL',
     },
-    useExistingGtag: true,    // 使用现有的gtag实例
+    useExistingGtag: true, // 使用现有的gtag实例
     isEnabled: process.env.NODE_ENV === 'production',
-    disableInDev: true
+    disableInDev: true,
   })
 
   // 监听路由变化，手动跟踪页面浏览
@@ -20,11 +20,12 @@ export default ({ app, router }) => {
     // 仅在生产环境中跟踪
     if (process.env.NODE_ENV === 'production') {
       // 使用全局 gtag 函数
-      window.gtag && window.gtag('event', 'page_view', {
-        page_title: to.meta.title || document.title,
-        page_path: to.fullPath,
-        page_location: window.location.href
-      })
+      window.gtag &&
+        window.gtag('event', 'page_view', {
+          page_title: to.meta.title || document.title,
+          page_path: to.fullPath,
+          page_location: window.location.href,
+        })
     }
   })
 }

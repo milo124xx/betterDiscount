@@ -29,7 +29,7 @@ import { useRoute, useRouter } from 'vue-router'
 import SiteLogo from './SiteLogo.vue'
 
 defineOptions({
-  name: 'HeaderNavComponent'
+    name: 'HeaderNavComponent'
 })
 
 const route = useRoute()
@@ -88,6 +88,17 @@ function goHome() {
         .logo {
             width: 200px;
             flex-shrink: 0;
+
+            // 移动端适配
+            @media (max-width: 768px) {
+                width: auto;
+                margin-right: 16px;
+            }
+
+            // 小屏幕进一步缩小
+            @media (max-width: 599px) {
+                margin-right: 10px;
+            }
         }
 
         .search-box {
@@ -99,12 +110,34 @@ function goHome() {
             .search-input {
                 width: 100%;
             }
+
+            // 移动端适配
+            @media (max-width: 1023px) {
+                position: relative;
+                left: 0;
+                transform: none;
+                width: auto;
+                flex-grow: 1;
+            }
         }
 
         .nav-actions {
             margin-left: auto;
             display: flex;
             gap: 12px;
+
+            // 移动端适配
+            @media (max-width: 599px) {
+                .back-home-btn .q-btn__content span {
+                    display: none;
+                }
+            }
+        }
+
+        // 移动端整体布局调整
+        @media (max-width: 768px) {
+            padding: 12px 0;
+            height: auto;
         }
     }
 }
@@ -113,5 +146,10 @@ function goHome() {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+
+    // 移动端适配 - 减小侧边距
+    @media (max-width: 599px) {
+        padding: 0 16px;
+    }
 }
 </style>
