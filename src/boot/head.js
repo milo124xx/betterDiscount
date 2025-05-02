@@ -1,4 +1,4 @@
-import { createHead } from '@unhead/vue'
+import { createHead } from '@vueuse/head'
 
 // 创建head实例
 export default ({ app }) => {
