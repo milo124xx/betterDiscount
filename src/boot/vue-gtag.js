@@ -1,38 +1,30 @@
-// vue-gtag 集成 - 使用 vue-gtag v3.4.0 的正确 API
+// vue-gtag 集成 - 与预初始化的GA进行集成
+// 注意：Google Analytics 已在 index.html 中预先初始化
+
+// 使用命名空间导入
 import * as VueGtag from 'vue-gtag'
 
 export default ({ app, router }) => {
-  // 添加路由变化监听器
-  let isFirstLoad = true
-  
-  // 首先安装插件
+  // 使用已经在 index.html 中初始化的gtag
   app.use(VueGtag, {
-    // 基本配置
-    config: {
-      id: 'G-YYNLZMV2DL',
-      params: {
-        send_page_view: false // 禁用自动页面浏览跟踪
-      }
+    property: {
+      id: 'G-YYNLZMV2DL'
     },
-    // 仅在生产环境中启用
-    enabled: process.env.NODE_ENV === 'production'
+    useExistingGtag: true,    // 使用现有的gtag实例
+    isEnabled: process.env.NODE_ENV === 'production',
+    disableInDev: true
   })
 
-  // 手动处理路由变化以避免初始化问题
+  // 监听路由变化，手动跟踪页面浏览
   router.afterEach((to) => {
-    // 在生产环境中初始化 gtag
+    // 仅在生产环境中跟踪
     if (process.env.NODE_ENV === 'production') {
-      // 在首次加载后延迟跟踪，避免初始化问题
-      if (isFirstLoad) {
-        isFirstLoad = false
-        // 延迟首次跟踪，确保 gtag 已初始化
-        setTimeout(() => {
-          VueGtag.pageview(to.fullPath, to.name)
-        }, 100)
-      } else {
-        // 后续页面更改正常跟踪
-        VueGtag.pageview(to.fullPath, to.name)
-      }
+      // 使用全局 gtag 函数
+      window.gtag && window.gtag('event', 'page_view', {
+        page_title: to.meta.title || document.title,
+        page_path: to.fullPath,
+        page_location: window.location.href
+      })
     }
   })
 }
