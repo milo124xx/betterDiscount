@@ -1,29 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title><%= productName %></title>
 
-    <meta charset="utf-8">
-    <meta name="description" content="<%= productDescription %>">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
-    <meta name="google-adsense-account" content="ca-pub-4734481133057523">
+    <meta charset="utf-8" />
+    <meta name="description" content="<%= productDescription %>" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>"
+    />
+    <meta name="google-adsense-account" content="ca-pub-4734481133057523" />
 
-    <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-    <link rel="icon" type="image/ico" href="favicon.ico">
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YYNLZMV2DL"></script>
+    <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+
+    <!-- Google Analytics 配置 -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      window.gaLoaded = false
+      window.adsenseLoaded = false
 
-      gtag('config', 'G-YYNLZMV2DL');
+      // 配置 Google Analytics
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-YYNLZMV2DL')
+
+      // 动态加载 Google Analytics
+      ;(function loadGoogleAnalytics() {
+        try {
+          const script = document.createElement('script')
+          script.async = true
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YYNLZMV2DL'
+          script.onload = function () {
+            window.gaLoaded = true
+            console.log('Google Analytics 已成功加载')
+          }
+          script.onerror = function () {
+            console.error('Google Analytics 加载失败')
+          }
+          document.head.appendChild(script)
+        } catch (e) {
+          console.error('加载 Google Analytics 时出错:', e)
+        }
+      })()
+
+      // 动态加载 Google AdSense
+      ;(function loadGoogleAdsense() {
+        try {
+          const script = document.createElement('script')
+          script.async = true
+          script.src =
+            'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4734481133057523'
+          script.crossOrigin = 'anonymous'
+          script.onload = function () {
+            window.adsenseLoaded = true
+            console.log('Google AdSense 已成功加载')
+          }
+          script.onerror = function () {
+            console.error('Google AdSense 加载失败')
+          }
+          document.head.appendChild(script)
+        } catch (e) {
+          console.error('加载 Google AdSense 时出错:', e)
+        }
+      })()
+
+      // 添加检查函数 - 可在控制台使用
+      window.checkGoogleServices = function () {
+        console.log('Google Analytics 状态:', window.gaLoaded ? '已加载' : '未加载')
+        console.log('Google AdSense 状态:', window.adsenseLoaded ? '已加载' : '未加载')
+        return {
+          analytics: window.gaLoaded,
+          adsense: window.adsenseLoaded,
+        }
+      }
+
+      // 页面加载完成后自动检查
+      window.addEventListener('load', function () {
+        // 3秒后检查服务状态
+        setTimeout(function () {
+          window.checkGoogleServices()
+        }, 3000)
+      })
     </script>
   </head>
   <body>
