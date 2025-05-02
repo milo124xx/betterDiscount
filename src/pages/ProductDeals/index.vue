@@ -57,6 +57,11 @@
                   <div class="platform-badge" :class="product.platform">
                     <q-icon :name="getPlatformIcon(product.platform)" size="18px" class="q-mr-xs" />
                     {{ getPlatformLabel(product.platform) }}
+                    <!-- 京东自营标签 -->
+                    <q-badge v-if="product.platform === 'jd' && product.jdSelfOperated" color="red"
+                      class="q-ml-xs self-operated-badge">
+                      自营
+                    </q-badge>
                   </div>
                 </div>
               </div>
@@ -81,31 +86,24 @@
                     <span class="value">{{ formatDealExpiry(product.dealExpiry) }}</span>
                   </div>
                 </div>
-              </div>
 
-              <!-- 京东特有字段 -->
-              <div v-if="product.platform === 'jd'" class="platform-deals">
-                <div class="platform-header">
-                  <q-icon name="inventory_2" color="red" size="22px" class="q-mr-sm" />
-                  <div class="platform-title">京东特惠</div>
-                </div>
-
-                <div class="deal-item" v-if="product.jdCoupon">
+                <!-- 京东特有信息整合到通用优惠区域 -->
+                <div class="deal-item" v-if="product.platform === 'jd' && product.jdCoupon">
                   <q-icon name="card_giftcard" color="red" size="20px" class="q-mr-sm" />
-                  <div>京东优惠券: {{ product.jdCoupon }}</div>
+                  <div>优惠券: {{ product.jdCoupon }}</div>
                 </div>
 
-                <div class="deal-item" v-if="product.jdPlus">
+                <div class="deal-item" v-if="product.platform === 'jd' && product.jdPlus">
                   <q-icon name="workspace_premium" color="red" size="20px" class="q-mr-sm" />
                   <div>PLUS会员特惠: {{ product.jdPlus }}</div>
                 </div>
 
-                <div class="deal-item" v-if="product.jdSecKill">
+                <div class="deal-item" v-if="product.platform === 'jd' && product.jdSecKill">
                   <q-icon name="bolt" color="red" size="20px" class="q-mr-sm" />
                   <div>秒杀活动: {{ product.jdSecKill }}</div>
                 </div>
 
-                <div class="deal-item" v-if="product.jdJingBean">
+                <div class="deal-item" v-if="product.platform === 'jd' && product.jdJingBean">
                   <q-icon name="monetization_on" color="red" size="20px" class="q-mr-sm" />
                   <div>京豆返利: {{ product.jdJingBean }}</div>
                 </div>
@@ -196,8 +194,29 @@
               <div class="action-buttons">
                 <q-btn unelevated rounded color="accent" class="shop-btn" icon="shopping_cart" label="去购买"
                   @click="goToProductLink" />
-                <q-btn outline rounded color="primary" class="share-btn q-ml-md" icon="share" label="分享优惠"
-                  @click="showShareDialog = true" />
+
+                <!-- 分享优惠文本和图标 -->
+                <div class="share-section q-ml-md">
+                  <span class="share-text text-grey-7">分享优惠:</span>
+                  <div class="share-icons-group q-ml-sm">
+                    <q-btn round flat size="sm" class="share-icon-btn q-mx-xs" @click="shareToWeChat">
+                      <q-icon name="img:/icons/wechat-logo.png" size="20px" />
+                      <q-tooltip>分享到微信</q-tooltip>
+                    </q-btn>
+                    <q-btn round flat size="sm" class="share-icon-btn q-mx-xs" @click="shareToWeibo">
+                      <q-icon name="img:/icons/Weibo_logo.png" size="20px" />
+                      <q-tooltip>分享到微博</q-tooltip>
+                    </q-btn>
+                    <q-btn round flat size="sm" class="share-icon-btn q-mx-xs" @click="shareToToutiao">
+                      <q-icon name="img:/icons/toutiao-logo.png" size="20px" />
+                      <q-tooltip>分享到今日头条</q-tooltip>
+                    </q-btn>
+                    <q-btn round flat size="sm" class="share-icon-btn q-mx-xs" @click="copyProductLink">
+                      <q-icon name="content_copy" size="20px" />
+                      <q-tooltip>复制链接</q-tooltip>
+                    </q-btn>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -571,6 +590,64 @@ function formatDealExpiry(expiry) {
     void e; // 使用 void 运算符明确表示我们知道这个变量但不使用它
     return expiry // 如果解析失败，直接返回原始字符串
   }
+}
+
+// 分享到微信
+function shareToWeChat() {
+  const productTitle = product.value.title
+  const productPrice = `￥${formatPrice(product.value.currentPrice)}`
+  const shareUrl = `${window.location.origin}/product-deals/${productId.value}`
+
+  navigator.clipboard.writeText(`【优惠分享】${productTitle} ${productPrice} ${shareUrl}`)
+  $q.notify({
+    color: 'positive',
+    position: 'top',
+    message: '已复制分享信息，请打开微信分享',
+    icon: 'done'
+  })
+}
+
+// 分享到微博
+function shareToWeibo() {
+  const productTitle = product.value.title
+  const productPrice = `￥${formatPrice(product.value.currentPrice)}`
+  const shareUrl = `${window.location.origin}/product-deals/${productId.value}`
+
+  navigator.clipboard.writeText(`【优惠分享】${productTitle} 现售 ${productPrice} 快来购买吧！${shareUrl}`)
+  $q.notify({
+    color: 'positive',
+    position: 'top',
+    message: '已复制分享信息，请打开微博分享',
+    icon: 'done'
+  })
+}
+
+// 分享到今日头条
+function shareToToutiao() {
+  const productTitle = product.value.title
+  const productPrice = `￥${formatPrice(product.value.currentPrice)}`
+  const shareUrl = `${window.location.origin}/product-deals/${productId.value}`
+
+  navigator.clipboard.writeText(`【优惠分享】${productTitle} ${productPrice} ${shareUrl}`)
+  $q.notify({
+    color: 'positive',
+    position: 'top',
+    message: '已复制分享信息，请打开今日头条分享',
+    icon: 'done'
+  })
+}
+
+// 复制商品链接
+function copyProductLink() {
+  const shareUrl = `${window.location.origin}/product-deals/${productId.value}`
+
+  navigator.clipboard.writeText(shareUrl)
+  $q.notify({
+    color: 'positive',
+    position: 'top',
+    message: '链接已复制到剪贴板',
+    icon: 'done'
+  })
 }
 
 // 生命周期钩子

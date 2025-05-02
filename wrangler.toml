@@ -3,14 +3,12 @@
 # 项目名称，应与您在 Cloudflare 上创建的项目名匹配
 name = "betterdeal"
 
-# 主分支名称
+# 主分支名称 - 适用于Git集成部署
 main_branch = "main"
 
-# 构建命令
+# Pages专用配置
+pages_build_output_dir = "dist/spa"
 build.command = "npm run build"
-
-# 输出目录
-build.output_directory = "dist/spa"
 
 # 环境变量
 [vars]
@@ -18,7 +16,7 @@ VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
 
 # 构建环境
 [build.environment]
-NODE_VERSION = "22.14.0"
+NODE_VERSION = "18.17.1"
 
 # 开发环境配置
 [env.development]
@@ -30,7 +28,5 @@ VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
 [env.production.vars]
 VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
 
-# 配置路由规则
-[routes]
-# SPA 回退路由 - 将所有路径指向 index.html
-"/*" = { path = "/index.html", status = 200 }
+# 配置SPA路由 - 现在这个由_redirects文件处理
+# 不再使用[routes]部分，改为依赖_redirects文件

@@ -1,17 +1,15 @@
-# SPA应用程序 fallback
-/article/* /index.html 200
-/search/* /index.html 200
-/category/* /index.html 200
-/product/* /index.html 200
-/deals/* /index.html 200
-/* /index.html 200
+# 静态资源 - 确保这些路径不会被重定向
+/assets/* /assets/:splat 200
+/css/* /css/:splat 200
+/js/* /js/:splat 200
+/fonts/* /fonts/:splat 200
+/icons/* /icons/:splat 200
 
-# API代理 - 使用301重定向而不是200代理
+# API代理
 /api/* https://betterdeal-worker1.wenmoon124.workers.dev/:splat 301
 
 # 允许Cloudflare资源
 /cdn-cgi/* /_cdn-cgi/:splat 200
-/assets/* /assets/:splat 200
 
 # 正确处理字体资源
 /*.woff /assets/:splat 200
@@ -19,3 +17,6 @@
 
 # 强制HTTPS
 http://*  https://:splat  301
+
+# SPA应用程序 fallback - 放在最后，避免循环
+/* /index.html 200!

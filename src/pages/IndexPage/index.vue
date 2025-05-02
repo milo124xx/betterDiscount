@@ -331,7 +331,7 @@ function goToArticlesList() {
 }
 
 function handleAdminLogin(password) {
-  if (password === 'admin123') {
+  if (password === 'qK9#jX2!@L') {
     localStorage.setItem('isAdmin', 'true')  // 设置管理员状态
     showAdminDialog.value = false  // 关闭对话框
     router.push('/admin')  // 跳转到后台管理页面

@@ -56,12 +56,16 @@
               <p class="text-h6">分享文章</p>
               <div class="share-buttons">
                 <q-btn flat round class="share-btn wechat-btn" @click="shareToWeChat">
-                  <q-icon name="img:https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico" size="24px" />
+                  <q-icon name="img:/icons/wechat-logo.png" size="24px" />
                   <q-tooltip>分享到微信</q-tooltip>
                 </q-btn>
                 <q-btn flat round class="share-btn weibo-btn" @click="shareToWeibo">
-                  <q-icon name="img:https://weibo.com/favicon.ico" size="24px" />
+                  <q-icon name="img:/icons/Weibo_logo.png" size="24px" />
                   <q-tooltip>分享到微博</q-tooltip>
+                </q-btn>
+                <q-btn flat round class="share-btn toutiao-btn" @click="shareToToutiao">
+                  <q-icon name="img:/icons/toutiao-logo.png" size="24px" />
+                  <q-tooltip>分享到今日头条</q-tooltip>
                 </q-btn>
                 <q-btn flat round class="share-btn link-btn" @click="copyArticleLink">
                   <q-icon name="content_copy" size="24px" />
@@ -299,6 +303,16 @@ function shareToWeChat() {
 function shareToWeibo() {
   Notify.create({
     message: '分享到微博功能暂未实现',
+    color: 'info',
+    icon: 'info',
+    position: 'top'
+  })
+}
+
+// 分享到今日头条
+function shareToToutiao() {
+  Notify.create({
+    message: '分享到今日头条功能暂未实现',
     color: 'info',
     icon: 'info',
     position: 'top'
