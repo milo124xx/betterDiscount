@@ -52,7 +52,7 @@ export default () => {
       // 初始化GA数据层
       window.dataLayer = window.dataLayer || []
       function gtag() {
-        dataLayer.push(arguments)
+        window.dataLayer.push(arguments)
       }
       window.gtag = gtag
 
