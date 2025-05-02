@@ -1,4 +1,9 @@
-# SPA应用程序 fallback - 避免循环规则
+# SPA应用程序 fallback
+/article/* /index.html 200
+/search/* /index.html 200
+/category/* /index.html 200
+/product/* /index.html 200
+/deals/* /index.html 200
 /* /index.html 200
 
 # API代理 - 使用301重定向而不是200代理
@@ -13,4 +18,4 @@
 /*.woff2 /assets/:splat 200
 
 # 强制HTTPS
-http://*  https://:splat  301!
+http://*  https://:splat  301
