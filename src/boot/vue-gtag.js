@@ -1,14 +1,17 @@
-// vue-gtag 集成, 用于 Google Analytics
-import * as VueGtag from 'vue-gtag'
+// vue-gtag 集成
+import { createGtag } from 'vue-gtag'
 
+// 按照官方文档使用正确的集成方式
 export default ({ app, router }) => {
-  // 简化配置，避免初始化问题
-  app.use(VueGtag, {
+  // 使用标准配置
+  const gtag = createGtag({
     property: {
-      id: 'G-YYNLZMV2DL', // 您的 Google Analytics 测量 ID
+      id: 'G-YYNLZMV2DL'
     },
     isEnabled: process.env.NODE_ENV === 'production',
-    router,
-    enabledInDev: false,
+    disableInDev: true
   })
+  
+  // 安装插件并传递路由器
+  app.use(gtag, router)
 }
