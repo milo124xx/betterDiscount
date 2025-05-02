@@ -12,14 +12,34 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+// 优化后的配色方案 - 聚焦优惠促销体验
+$primary   : #1a365d; // 深蓝色调，更高端稳重
+$secondary : #3498db; // 保留明亮蓝色作为辅助色
+$accent    : #ff3a36; // 保持鲜明红色，易引起注意
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
+$dark      : #2d3436; // 深灰色
+$dark-page : #1e272e; // 更深的背景色
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+$positive  : #2ecc71; // 清新绿色
+$negative  : #ff3a36; // 与强调色一致，强化视觉一致性
+$info      : #3498db; // 信息蓝色
+$warning   : #ff9500; // 鲜艳的橙色，提高警示效果
+
+// 促销相关颜色 - 优化版
+$discount-red: #ff3a36; // 主要折扣色 - 高饱和度红色，最能吸引注意力
+$discount-deep: #e60000; // 深折扣色，用于悬停状态
+$discount-light: #fff0f0; // 折扣背景色，柔和但引人注目
+$discount-bright: #ff0f37; // 新增：更明亮的折扣色，用于特别优惠
+$price-green: #00a650; // 价格绿，暗示省钱
+$urgency-orange: #ff9500; // 紧迫感橙色，用于限时优惠
+$urgency-light: #fff9e6; // 新增：轻微的紧迫感背景色
+
+// 自定义颜色变量
+$surface-light: #f9f9f9; // 更加纯净的背景色
+$surface-medium: #f2f2f2; // 中性的灰色背景
+$border-light: rgba(0, 0, 0, 0.08); // 略微加深边框，提高辨识度
+$text-primary: #2d3436; // 主文本色
+$text-secondary: #666666; // 次要文本色
+$shadow-light: 0 6px 12px rgba(0, 0, 0, 0.04); // 轻微阴影
+$shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.06); // 中等阴影
+$shadow-discount: 0 8px 15px rgba(255, 58, 54, 0.2); // 新增：折扣元素专用阴影，带红色调

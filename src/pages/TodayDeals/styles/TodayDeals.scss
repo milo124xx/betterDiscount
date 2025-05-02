@@ -1,0 +1,52 @@
+.today-deals-page {
+  padding: 24px 0;
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .page-header {
+    margin-bottom: 24px;
+    
+    h1 {
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    p {
+      color: var(--q-primary);
+      margin: 0;
+    }
+  }
+
+  .products-section {
+    min-height: 400px;
+    
+    .card-component {
+      height: 100%;
+      transition: transform 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+  }
+
+  .loading-container {
+    min-height: 300px;
+  }
+
+  .no-results {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pagination-container {
+    margin-top: 40px;
+  }
+}

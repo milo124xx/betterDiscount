@@ -1,0 +1,391 @@
+/* 高级专业风格的管理页面 */
+.admin-page {
+  // 基础布局和背景
+  background-color: $surface-light;
+  min-height: calc(100vh - 50px);
+  
+  // 主容器样式
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    padding: 24px 28px;
+    
+    // 精致动效
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+  }
+  
+  // 标签页样式 - 欧美风格，小巧精致
+  .q-tabs {
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    
+    .q-tab {
+      padding: 0 16px;
+      min-height: 42px;
+      text-transform: none;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      
+      &__icon {
+        font-size: 18px;
+        margin-right: 6px;
+      }
+      
+      &--active {
+        color: $primary;
+        font-weight: 600;
+      }
+    }
+    
+    .q-tab__indicator {
+      height: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  // 面板标题 - 简约现代风格
+  .panel-header {
+    margin-bottom: 20px;
+    
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      color: $text-primary;
+      margin: 0;
+      padding-bottom: 12px;
+      position: relative;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 32px;
+        height: 2px;
+        background-color: $primary;
+        border-radius: 2px;
+      }
+    }
+  }
+  
+  // 按钮组 - 紧凑现代设计
+  .action-buttons {
+    .q-btn {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1;
+      padding: 8px 12px;
+      
+      &__content {
+        row-gap: 0;
+      }
+      
+      &__icon {
+        font-size: 16px;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  // 表格样式 - 欧美专业风格
+  .q-table {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    
+    &__top {
+      padding: 8px 16px;
+    }
+    
+    thead tr {
+      height: 48px;
+      
+      th {
+        font-weight: 600;
+        font-size: 13px;
+        color: $text-primary;
+        background-color: rgba(0, 0, 0, 0.02);
+        padding: 0 16px;
+        height: 48px;
+        
+        &:first-child {
+          border-top-left-radius: 6px;
+        }
+        
+        &:last-child {
+          border-top-right-radius: 6px;
+        }
+      }
+    }
+    
+    tbody tr {
+      height: 52px;
+      
+      td {
+        padding: 8px 16px;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      }
+      
+      &:last-child td {
+        border-bottom: none;
+      }
+      
+      &:hover {
+        background-color: rgba(67, 97, 238, 0.04);
+      }
+    }
+    
+    // 产品图片样式
+    .product-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    // 无图片占位符
+    .image-placeholder {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      background-color: #f8f9fa;
+    }
+    
+    // 文章图片样式
+    .article-image {
+      width: 100px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+  }
+  
+  // 状态标签样式 - 简约设计
+  .status-chip {
+    font-size: 12px;
+    height: 24px;
+    border-radius: 12px;
+    padding: 0 8px;
+    
+    &--in-stock {
+      background-color: rgba(6, 214, 160, 0.1);
+      color: $positive;
+    }
+    
+    &--out-of-stock {
+      background-color: rgba(239, 71, 111, 0.1);
+      color: $negative;
+    }
+    
+    &--small {
+      font-size: 11px;
+      height: 20px;
+      padding: 0 6px;
+    }
+    
+    .q-icon {
+      font-size: 14px;
+      margin-right: 3px;
+    }
+  }
+  
+  // 价格样式 - 欧美风格的金额显示
+  .price-display {
+    .original-price {
+      font-size: 12px;
+      color: $text-secondary;
+      text-decoration: line-through;
+      margin-bottom: 2px;
+    }
+    
+    .final-price {
+      color: $primary;
+      font-weight: 600;
+      font-size: 14px;
+      
+      &--discount {
+        color: $negative;
+      }
+    }
+  }
+  
+  // 平台标签样式
+  .platform-chip {
+    font-size: 12px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 12px;
+    background-color: transparent;
+    
+    .q-icon {
+      font-size: 14px;
+      margin-right: 4px;
+    }
+    
+    &--jd {
+      color: #e4393c;
+      background-color: rgba(228, 57, 60, 0.08);
+    }
+    
+    &--taobao {
+      color: #ff5000;
+      background-color: rgba(255, 80, 0, 0.08);
+    }
+    
+    &--pdd {
+      color: #e02e24;
+      background-color: rgba(224, 46, 36, 0.08);
+    }
+    
+    &--tmall {
+      color: #ff0036;
+      background-color: rgba(255, 0, 54, 0.08);
+    }
+    
+    &--amazon {
+      color: #ff9900;
+      background-color: rgba(255, 153, 0, 0.08);
+    }
+  }
+  
+  // 日期标签样式
+  .date-chip {
+    font-size: 12px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 12px;
+    color: $text-secondary;
+    background-color: rgba(0, 0, 0, 0.04);
+    
+    .q-icon {
+      font-size: 14px;
+      margin-right: 4px;
+    }
+  }
+  
+  // 操作按钮样式 - 紧凑设计
+  .action-btn {
+    font-size: 12px;
+    padding: 4px;
+    
+    &__icon {
+      font-size: 16px;
+    }
+    
+    &--edit {
+      color: $info;
+    }
+    
+    &--delete {
+      color: $negative;
+    }
+  }
+  
+  // 空状态提示
+  .empty-state {
+    padding: 40px 0;
+    
+    &__icon {
+      color: rgba(0, 0, 0, 0.2);
+      margin-bottom: 12px;
+    }
+    
+    &__text {
+      color: $text-secondary;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+// 弹出对话框样式 - 欧美专业风格
+.dialog-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  max-width: 480px;
+  
+  .dialog-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    
+    &__title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      color: $text-primary;
+      margin: 0;
+    }
+  }
+  
+  .dialog-content {
+    padding: 20px;
+  }
+  
+  .dialog-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    
+    .q-btn {
+      font-size: 13px;
+      font-weight: 500;
+      min-height: 36px;
+      min-width: 84px;
+      padding: 0 16px;
+    }
+  }
+  
+  // 表单样式
+  .q-form {
+    .q-field {
+      margin-bottom: 16px;
+      
+      &__label {
+        font-size: 13px;
+        font-weight: 500;
+        padding-bottom: 4px;
+      }
+      
+      &__native {
+        font-size: 13px;
+      }
+      
+      &--with-bottom {
+        padding-bottom: 20px;
+      }
+      
+      &--focused .q-field__label {
+        color: $primary;
+      }
+    }
+    
+    .form-section {
+      margin-bottom: 20px;
+      
+      &__title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: $text-primary;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding-bottom: 8px;
+      }
+    }
+  }
+}

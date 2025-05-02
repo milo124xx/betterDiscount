@@ -28,6 +28,10 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SiteLogo from './SiteLogo.vue'
 
+defineOptions({
+  name: 'HeaderNavComponent'
+})
+
 const route = useRoute()
 const router = useRouter()
 const searchText = ref('')
@@ -44,6 +48,8 @@ function handleSearch() {
             path: '/search',
             query: { q: searchText.value.trim() }
         })
+        // 清空搜索框
+        searchText.value = ''
     }
 }
 

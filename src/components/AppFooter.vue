@@ -8,6 +8,13 @@
     </footer>
 </template>
 
+<script setup>
+// 添加组件名称以避免ESLint错误
+defineOptions({
+  name: 'AppFooterComponent'
+})
+</script>
+
 <style lang="scss" scoped>
 .footer-section {
     background: #f5f5f5;

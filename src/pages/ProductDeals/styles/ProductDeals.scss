@@ -1,0 +1,602 @@
+.product-deals-page {
+  background-color: $surface-light;
+  min-height: 100vh;
+  padding-bottom: 40px;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: $text-secondary;
+  }
+
+  // 统一商品区样式
+  .unified-product-section {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: $shadow-light;
+    margin-bottom: 24px;
+    padding: 24px;
+    position: relative;
+    
+    // 添加一个优惠角标 - 新增元素
+    &::before {
+      content: "优惠";
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: $discount-red;
+      color: white;
+      padding: 4px 20px;
+      font-weight: bold;
+      font-size: 14px;
+      transform: translateY(-30%) translateX(30%) rotate(45deg);
+      transform-origin: bottom left;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .breadcrumbs {
+      margin-bottom: 16px;
+    }
+
+    .product-header {
+      margin-bottom: 24px;
+      position: relative;
+
+      .platform-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+  
+        &.jd {
+          background-color: rgba($discount-red, 0.1);
+          color: $discount-red;
+        }
+  
+        &.taobao {
+          background-color: rgba($urgency-orange, 0.1);
+          color: $urgency-orange;
+        }
+  
+        &.tmall {
+          background-color: rgba($discount-deep, 0.1);
+          color: $discount-deep;
+        }
+  
+        &.pdd {
+          background-color: rgba($discount-red, 0.1);
+          color: $discount-red;
+        }
+  
+        &.other {
+          background-color: rgba(100, 100, 100, 0.1);
+          color: #646464;
+        }
+      }
+
+      .product-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: $primary;
+        margin: 0;
+        line-height: 1.3;
+      }
+      
+      // 添加一个大的折扣徽章 - 新增元素
+      .discount-tag {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: $discount-red;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 8px 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba($discount-red, 0.3);
+        transform: rotate(3deg);
+        z-index: 2;
+        
+        &::after {
+          content: "折";
+          font-size: 14px;
+          margin-left: 2px;
+        }
+      }
+    }
+
+    .product-content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      
+      @media (min-width: 768px) {
+        grid-template-columns: minmax(300px, 1fr) 2fr;
+      }
+
+      .product-image-container {
+        .product-image {
+          width: 100%;
+          border-radius: 8px;
+          box-shadow: $shadow-medium;
+          transition: transform 0.3s ease;
+          
+          &:hover {
+            transform: scale(1.02);
+          }
+        }
+      }
+
+      .product-details-container {
+        // 价格特惠栏 - 强化视觉效果
+        .price-section {
+          margin-bottom: 20px;
+          background: $discount-light;
+          padding: 16px;
+          border-radius: 12px;
+          box-shadow: $shadow-light;
+          border-left: 4px solid $discount-red;
+          position: relative;
+          overflow: hidden;
+          
+          // 添加图案背景
+          &::before {
+            content: "";
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            width: 120px;
+            height: 120px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M87,13 L13,87' stroke='%23ff3a3660' stroke-width='2'/%3E%3Cpath d='M97,3 L3,97' stroke='%23ff3a3660' stroke-width='2'/%3E%3Cpath d='M77,23 L23,77' stroke='%23ff3a3660' stroke-width='2'/%3E%3C/svg%3E") no-repeat;
+            background-size: contain;
+            opacity: 0.15;
+            z-index: 0;
+          }
+          
+          .current-price {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+            
+            .label {
+              color: $discount-deep;
+              margin-right: 8px;
+              font-size: 16px;
+              font-weight: 600;
+            }
+            
+            .price-value {
+              font-size: 32px;
+              font-weight: 800;
+              color: $discount-red;
+              margin-right: 12px;
+              text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+              
+              // 添加脉冲动画
+              animation: pricePulse 2s infinite;
+              @keyframes pricePulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+              }
+            }
+            
+            .original-price-inline {
+              color: $text-secondary;
+              font-size: 16px;
+              text-decoration: line-through;
+              position: relative;
+              
+              &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 100%;
+                height: 2px;
+                background-color: rgba($discount-red, 0.5);
+                transform: rotate(-5deg);
+              }
+            }
+          }
+          
+          // 添加省钱标签 - 新增元素
+          .saving-tag {
+            display: inline-flex;
+            align-items: center;
+            background: $price-green;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba($price-green, 0.3);
+            
+            .saving-icon {
+              margin-right: 4px;
+            }
+          }
+          
+          // 平台标记的新样式
+          .platform-badge-container {
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+            
+            .platform-badge {
+              display: inline-flex;
+              align-items: center;
+              padding: 6px 12px;
+              border-radius: 30px;
+              font-size: 14px;
+              font-weight: 600;
+              
+              &.jd {
+                background-color: rgba($discount-red, 0.1);
+                color: $discount-red;
+                border: 1px solid rgba($discount-red, 0.2);
+              }
+              
+              &.taobao {
+                background-color: rgba($urgency-orange, 0.1);
+                color: $urgency-orange;
+                border: 1px solid rgba($urgency-orange, 0.2);
+              }
+              
+              &.tmall {
+                background-color: rgba($discount-deep, 0.1);
+                color: $discount-deep;
+                border: 1px solid rgba($discount-deep, 0.2);
+              }
+              
+              &.pdd {
+                background-color: rgba($discount-red, 0.1);
+                color: $discount-red;
+                border: 1px solid rgba($discount-red, 0.2);
+              }
+              
+              &.other {
+                background-color: rgba(100, 100, 100, 0.1);
+                color: #646464;
+                border: 1px solid rgba(100, 100, 100, 0.2);
+              }
+            }
+          }
+        }
+
+        // 优惠信息部分 - 强化
+        .deal-section {
+          margin-bottom: 24px;
+          background-color: white;
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: $shadow-light;
+          border: 1px solid $border-light;
+          position: relative;
+          
+          // 优惠标题
+          .deal-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: $primary;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            
+            .deal-icon {
+              color: $discount-red;
+              margin-right: 6px;
+            }
+          }
+          
+          // 倒计时组件 - 新增元素
+          .countdown-timer {
+            background: linear-gradient(135deg, $urgency-orange, $discount-red);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            .timer-icon {
+              margin-right: 6px;
+            }
+            
+            .timer-value {
+              font-size: 16px;
+              
+              .time-unit {
+                background: rgba(255,255,255,0.2);
+                padding: 2px 6px;
+                border-radius: 4px;
+                margin: 0 2px;
+              }
+            }
+          }
+        }
+
+        .platform-deals {
+          margin-bottom: 20px;
+          background-color: white;
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: $shadow-light;
+          border: 1px solid $border-light;
+          
+          .platform-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            
+            .platform-title {
+              font-weight: 700;
+              font-size: 18px;
+              color: $primary;
+              
+              .platform-icon {
+                color: $discount-red;
+                margin-right: 6px;
+              }
+            }
+          }
+        }
+
+        .deal-item {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+          border-bottom: 1px dashed rgba($text-secondary, 0.2);
+          transition: transform 0.2s ease;
+          
+          &:hover {
+            transform: translateX(5px);
+          }
+          
+          &:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+          
+          .deal-icon {
+            color: $discount-red;
+            margin-right: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+          }
+          
+          .deal-content {
+            flex: 1;
+          }
+          
+          .label {
+            font-weight: 700;
+            margin-right: 4px;
+            color: $text-primary;
+          }
+          
+          .value {
+            color: $text-secondary;
+          }
+          
+          &.highlight {
+            background-color: $discount-light;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid $discount-red;
+          }
+        }
+
+        .product-description {
+          margin-top: 24px;
+          margin-bottom: 24px;
+          
+          .description-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: $primary;
+            margin-bottom: 16px;
+            border-bottom: 1px solid $border-light;
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            
+            .header-icon {
+              margin-right: 8px;
+              color: $secondary;
+            }
+          }
+          
+          .description-content {
+            padding: 8px 0;
+            line-height: 1.6;
+            color: $text-primary;
+            
+            p, ul, ol, h1, h2, h3, h4, h5, h6 {
+              margin-bottom: 16px;
+            }
+            
+            img {
+              max-width: 100%;
+              height: auto;
+              border-radius: 8px;
+              margin: 16px 0;
+              box-shadow: $shadow-light;
+            }
+          }
+        }
+
+        .action-buttons {
+          display: flex;
+          margin-top: 24px;
+          
+          .shop-btn {
+            padding: 12px 30px;
+            font-weight: 700;
+            background-color: $discount-red;
+            font-size: 16px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba($discount-red, 0.3);
+            transition: all 0.3s ease;
+            
+            &:hover {
+              transform: translateY(-3px);
+              box-shadow: 0 6px 18px rgba($discount-red, 0.4);
+              background-color: $discount-deep;
+            }
+            
+            .shop-icon {
+              margin-right: 8px;
+            }
+          }
+          
+          .share-btn {
+            padding: 12px 24px;
+            font-weight: 600;
+            background-color: white;
+            color: $primary;
+            border: 1px solid $border-light;
+            box-shadow: $shadow-light;
+            
+            &:hover {
+              background-color: $surface-light;
+            }
+            
+            .share-icon {
+              margin-right: 6px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 推荐商品区样式
+  .recommended-products-section {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: $shadow-light;
+    margin-bottom: 24px;
+    padding: 24px;
+
+    .section-header {
+      margin-bottom: 20px;
+      
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: $primary;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        
+        .title-icon {
+          color: $discount-red;
+          margin-right: 10px;
+        }
+      }
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      
+      @media (max-width: 767px) {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+      }
+      
+      .product-card-item {
+        height: 100%;
+      }
+      
+      .no-recommendations {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px 0;
+        color: $text-secondary;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .ad-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: $shadow-light;
+    margin-bottom: 24px;
+
+    .ad-content {
+      .ad-placeholder {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, $surface-light, $surface-medium);
+        border-radius: 8px;
+        border: 2px dashed rgba($text-secondary, 0.3);
+        
+        .ad-placeholder-text {
+          color: $text-secondary;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .share-dialog {
+    width: 300px;
+    border-radius: 12px;
+
+    .share-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+
+      &:hover {
+        background-color: $surface-light;
+        transform: translateY(-2px);
+      }
+      
+      .option-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      .option-name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+}

@@ -23,5 +23,12 @@
 </template>
 
 <script setup>
-//
+// 添加组件名称，解决 ESLint 错误
+defineOptions({
+  name: 'ErrorNotFoundPage'
+})
 </script>
+
+<style lang="scss" scoped>
+// 可以添加特定的样式
+</style>

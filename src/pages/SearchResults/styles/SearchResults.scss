@@ -1,0 +1,105 @@
+.search-results-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .main-content {
+        flex: 1;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 500;
+
+        small {
+            color: #666;
+            font-size: 14px;
+            font-weight: normal;
+        }
+    }
+
+    .filter-section {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+        .platform-buttons {
+            .platform-btn {
+                border: 1px solid;
+                border-radius: 8px;
+                min-width: 100px;
+                padding: 8px 16px;
+                transition: all 0.3s ease;
+
+                &:not(.active) {
+                    border-color: var(--q-primary);
+
+                    &:hover {
+                        background: rgba(0, 0, 0, 0.03);
+                    }
+                }
+
+                &.active {
+                    transform: scale(1.05);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                &:first-child {
+                    &:not(.active) {
+                        border-color: var(--q-primary);
+                    }
+                }
+
+                &:nth-child(2) {
+                    &:not(.active) {
+                        border-color: var(--q-red-8);
+                    }
+                }
+
+                &:nth-child(3) {
+                    &:not(.active) {
+                        border-color: var(--q-orange-8);
+                    }
+                }
+
+                &:nth-child(4) {
+                    &:not(.active) {
+                        border-color: var(--q-pink-8);
+                    }
+                }
+            }
+        }
+
+        .sort-dropdown {
+            min-width: 140px;
+        }
+    }
+
+    .products-section {
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            border-color: rgba(0, 0, 0, 0.06);
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            }
+        }
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.no-results {
+    margin-top: 48px;
+}
