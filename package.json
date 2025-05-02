@@ -11,7 +11,7 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build && node -e \"require('fs').copyFileSync('_redirects', 'dist/spa/_redirects')\"",
+    "build": "quasar build && node -e \"const fs=require('fs'); fs.copyFileSync('_redirects', 'dist/spa/_redirects'); /* 无需复制ads.txt，它在public文件夹中会自动复制 */\"",
     "postinstall": "quasar prepare",
     "start": "quasar serve dist/spa --history"
   },
@@ -23,6 +23,7 @@
     "pinia": "^3.0.1",
     "quasar": "^2.16.0",
     "vue": "^3.4.18",
+    "vue-gtag": "^3.4.0",
     "vue-i18n": "^11.0.0",
     "vue-router": "^4.0.0"
   },

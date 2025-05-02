@@ -10,6 +10,11 @@ $shadow-light: 0 8px 16px rgba(0, 0, 0, 0.05);
 $shadow-medium: 0 12px 24px rgba(0, 0, 0, 0.08);
 $transition-default: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
+// 代替darken()函数的混合器
+@function custom-darken($color, $amount) {
+  @return mix(black, $color, $amount);
+}
+
 .home-page {
   color: $neutral-dark;
   background-color: #fff;
@@ -309,11 +314,7 @@ $transition-default: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 // 自定义按钮样式
 .q-btn {
   &.btn-primary {
-    background: linear-gradient(
-      135deg,
-      $secondary-color,
-      color.scale($secondary-color, $lightness: -18.8%)
-    );
+    background: linear-gradient(135deg, $secondary-color, custom-darken($secondary-color, 18%));
     color: white;
     font-weight: 600;
     border-radius: 24px;
@@ -328,11 +329,7 @@ $transition-default: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   &.btn-accent {
-    background: linear-gradient(
-      135deg,
-      $accent-color,
-      color.scale($accent-color, $lightness: -14.9%)
-    );
+    background: linear-gradient(135deg, $accent-color, custom-darken($accent-color, 15%));
     color: white;
     font-weight: 600;
     border-radius: 24px;

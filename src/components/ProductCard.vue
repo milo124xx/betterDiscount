@@ -249,7 +249,7 @@ function formatPrice(price) {
     }
 
     &.taobao {
-      background: linear-gradient(135deg, $urgency-orange, color.scale($urgency-orange, $lightness: -20%));
+      background: linear-gradient(135deg, $urgency-orange, mix(black, $urgency-orange, 20%));
       color: white;
     }
 
@@ -259,7 +259,7 @@ function formatPrice(price) {
     }
 
     &.tmall {
-      background: linear-gradient(135deg, $discount-red, color.scale($discount-red, $lightness: -24.7%));
+      background: linear-gradient(135deg, $discount-red, mix(black, $discount-red, 25%));
       color: white;
     }
 
