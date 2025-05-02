@@ -1,5 +1,5 @@
-# SPA应用程序 fallback - 避免重复规则
-/* /index.html 200!
+# SPA应用程序 fallback - 避免循环规则
+/* /index.html 200
 
 # API代理 - 使用301重定向而不是200代理
 /api/* https://betterdeal-worker1.wenmoon124.workers.dev/:splat 301
@@ -11,3 +11,6 @@
 # 正确处理字体资源
 /*.woff /assets/:splat 200
 /*.woff2 /assets/:splat 200
+
+# 强制HTTPS
+http://*  https://:splat  301!

@@ -1,11 +1,5 @@
 <template>
-  <q-card
-    class="product-card"
-    flat
-    v-ripple
-    clickable
-    @click="navigateToProduct"
-  >
+  <q-card class="product-card" flat v-ripple clickable @click="navigateToProduct">
     <!-- 平台标签 -->
     <div :class="['platform-tag', product.platform]">
       {{ getPlatformLabel(product.platform) }}
@@ -18,13 +12,7 @@
     </div>
 
     <!-- 商品图片 -->
-    <q-img
-      :src="productImage"
-      class="product-image"
-      :ratio="1"
-      no-spinner
-      no-transition
-    >
+    <q-img :src="productImage" class="product-image" :ratio="1" no-spinner no-transition>
       <template v-slot:loading>
         <q-skeleton type="rect" />
       </template>
@@ -62,15 +50,8 @@
 
     <!-- 购买按钮 悬浮显示 - 改进视觉效果 -->
     <div class="buy-overlay">
-      <q-btn
-        unelevated
-        rounded
-        class="buy-btn"
-        color="accent"
-        icon="shopping_cart"
-        label="查看优惠"
-        @click.stop="navigateToProduct"
-      />
+      <q-btn unelevated rounded class="buy-btn" color="accent" icon="shopping_cart" label="查看优惠"
+        @click.stop="navigateToProduct" />
     </div>
   </q-card>
 </template>
@@ -222,9 +203,15 @@ function formatPrice(price) {
 
     // 添加脉冲动画，减弱效果
     animation: discountPulse 2.5s infinite alternate;
+
     @keyframes discountPulse {
-      0% { box-shadow: 0 0 3px rgba($discount-red, 0.4); }
-      100% { box-shadow: 0 0 8px rgba($discount-red, 0.7); }
+      0% {
+        box-shadow: 0 0 3px rgba($discount-red, 0.4);
+      }
+
+      100% {
+        box-shadow: 0 0 8px rgba($discount-red, 0.7);
+      }
     }
 
     .discount-label {
@@ -262,7 +249,7 @@ function formatPrice(price) {
     }
 
     &.taobao {
-      background: linear-gradient(135deg, $urgency-orange, darken($urgency-orange, 10%));
+      background: linear-gradient(135deg, $urgency-orange, color.scale($urgency-orange, $lightness: -20%));
       color: white;
     }
 
@@ -272,7 +259,7 @@ function formatPrice(price) {
     }
 
     &.tmall {
-      background: linear-gradient(135deg, $discount-red, darken($discount-red, 15%));
+      background: linear-gradient(135deg, $discount-red, color.scale($discount-red, $lightness: -24.7%));
       color: white;
     }
 
@@ -393,7 +380,7 @@ function formatPrice(price) {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.8), transparent);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8), transparent);
     padding: 20px 0 10px;
     display: flex;
     justify-content: center;
