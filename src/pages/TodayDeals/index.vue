@@ -28,14 +28,8 @@
 
           <!-- 分页控件 -->
           <div class="pagination-container q-py-md q-mt-md flex justify-center">
-            <q-pagination
-              v-model="currentPage"
-              :max="totalPages"
-              :max-pages="5"
-              boundary-links
-              direction-links
-              color="primary"
-            />
+            <q-pagination v-model="currentPage" :max="totalPages" :max-pages="5" boundary-links direction-links
+              color="primary" />
           </div>
         </template>
       </div>
@@ -51,10 +45,22 @@ defineOptions({
 
 import { ref, computed, onMounted, watch } from 'vue'
 import { useQuasar } from 'quasar'
+import { useHead } from '@vueuse/head'
+import { generateSeoMeta } from 'src/utils/seo'
 import ProductCard from 'components/ProductCard.vue'
 import { productApi } from 'src/api/products'
 
 const $q = useQuasar()
+
+// SEO配置
+useHead(
+  generateSeoMeta({
+    title: '今日特惠 - 最新折扣与优惠券',
+    description: '浏览今日最新的商品折扣、促销活动和优惠券。每日更新，涵盖淘宝、京东、拼多多等平台的实时特价商品。',
+    keywords: '今日特惠,限时折扣,优惠券,特价商品,促销活动,淘宝优惠,京东优惠,拼多多优惠',
+    url: '/today-deals'
+  })
+)
 
 // 数据状态
 const loading = ref(false)

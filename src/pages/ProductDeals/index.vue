@@ -23,6 +23,7 @@
               <q-breadcrumbs-el label="首页" icon="home" to="/" />
               <q-breadcrumbs-el label="优惠详情" />
             </q-breadcrumbs>
+            </q-breadcrumbs>
           </div>
 
           <div class="product-header">
@@ -32,11 +33,7 @@
           <div class="product-content-grid">
             <!-- 商品图片 -->
             <div class="product-image-container">
-              <q-img
-                :src="product.image"
-                class="product-image"
-                :ratio="1"
-              >
+              <q-img :src="product.image" class="product-image" :ratio="1">
                 <template v-slot:error>
                   <div class="text-center full-height flex flex-center column">
                     <q-icon name="image_not_supported" size="48px" color="grey-6" />
@@ -119,9 +116,7 @@
               <div v-if="product.platform === 'taobao' || product.platform === 'tmall'" class="platform-deals">
                 <div class="platform-header">
                   <q-icon :name="product.platform === 'taobao' ? 'storefront' : 'store'"
-                          :color="product.platform === 'taobao' ? 'orange' : 'red'"
-                          size="22px"
-                          class="q-mr-sm" />
+                    :color="product.platform === 'taobao' ? 'orange' : 'red'" size="22px" class="q-mr-sm" />
                   <div class="platform-title">{{ product.platform === 'taobao' ? '淘宝' : '天猫' }}特惠</div>
                 </div>
 
@@ -200,24 +195,10 @@
 
               <!-- 操作按钮 -->
               <div class="action-buttons">
-                <q-btn
-                  unelevated
-                  rounded
-                  color="accent"
-                  class="shop-btn"
-                  icon="shopping_cart"
-                  label="去购买"
-                  @click="goToProductLink"
-                />
-                <q-btn
-                  outline
-                  rounded
-                  color="primary"
-                  class="share-btn q-ml-md"
-                  icon="share"
-                  label="分享优惠"
-                  @click="showShareDialog = true"
-                />
+                <q-btn unelevated rounded color="accent" class="shop-btn" icon="shopping_cart" label="去购买"
+                  @click="goToProductLink" />
+                <q-btn outline rounded color="primary" class="share-btn q-ml-md" icon="share" label="分享优惠"
+                  @click="showShareDialog = true" />
               </div>
             </div>
           </div>
@@ -233,12 +214,8 @@
           </div>
           <div class="products-grid">
             <template v-if="recommendedProducts.length > 0">
-              <ProductCard
-                v-for="item in recommendedProducts"
-                :key="item.id"
-                :product="item"
-                class="product-card-item"
-              />
+              <ProductCard v-for="item in recommendedProducts" :key="item.id" :product="item"
+                class="product-card-item" />
             </template>
             <!-- 没有推荐商品时的提示 -->
             <div v-else class="no-recommendations">
@@ -291,6 +268,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useHead } from '@vueuse/head'
+import { generateProductSeoMeta } from 'src/utils/seo'
 import { productApi } from 'src/api/products'
 import { useQuasar } from 'quasar'
 import ProductCard from 'src/components/ProductCard.vue'
@@ -315,6 +294,58 @@ const loadingRecommendations = ref(false)
 
 // 获取商品ID
 const productId = computed(() => route.params.id)
+
+// 动态SEO配置
+const seoMetaData = computed(() => {
+  if (!product.value || loading.value) {
+    return generateProductSeoMeta({
+      title: '商品优惠详情',
+      description: '正在加载商品优惠信息，请稍候...',
+      id: productId.value,
+      category: '',
+      originalPrice: 0,
+      discountPrice: 0,
+      savedAmount: 0
+    })
+  }
+
+  // 计算折扣金额
+  const originalPrice = parseFloat(product.value.originalPrice) || 0
+  const currentPrice = parseFloat(product.value.currentPrice) || 0
+  const savedAmount = Math.max(0, originalPrice - currentPrice).toFixed(2)
+
+  // 生成商品描述
+  let description = `${product.value.title} 优惠信息`
+  if (originalPrice > 0 && currentPrice > 0) {
+    description += `。原价${originalPrice}元，优惠价${currentPrice}元，立省${savedAmount}元。`
+  }
+  if (product.value.description) {
+    // 从商品描述中提取纯文本摘要
+    const textDescription = product.value.description
+      .replace(/<[^>]+>/g, '') // 去除HTML标签
+      .replace(/\s+/g, ' ') // 替换多个空白为单个空格
+      .trim()
+      .substring(0, 120) // 限制长度
+
+    if (textDescription) {
+      description += ` ${textDescription}...`
+    }
+  }
+
+  return generateProductSeoMeta({
+    title: product.value.title || '商品优惠详情',
+    description: description,
+    category: product.value.category || '',
+    id: productId.value,
+    image: product.value.image || '',
+    originalPrice: originalPrice,
+    discountPrice: currentPrice,
+    savedAmount: savedAmount
+  })
+})
+
+// 应用SEO配置
+useHead(seoMetaData)
 
 // 获取商品详情和优惠信息
 async function fetchProductDeals() {

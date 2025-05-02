@@ -39,12 +39,7 @@
             </div>
 
             <!-- 文章图片 -->
-            <q-img
-              v-if="article.image"
-              :src="article.image"
-              class="article-main-image q-mb-lg"
-              :ratio="16/9"
-            >
+            <q-img v-if="article.image" :src="article.image" class="article-main-image q-mb-lg" :ratio="16 / 9">
               <template v-slot:error>
                 <div class="image-error">
                   <q-icon name="image_not_supported" size="3em" color="grey-6" />
@@ -111,8 +106,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '@vueuse/head'
+import { generateArticleSeoMeta } from 'src/utils/seo'
 import { articleApi } from 'src/api/articles'
 import { productApi } from 'src/api/products'
 import ArticleCard from 'src/pages/IndexPage/components/ArticleCard.vue'
@@ -132,6 +129,40 @@ const relatedArticles = ref([])
 const recommendedProducts = ref([])
 const loading = ref(true)
 const error = ref(null)
+
+// 动态SEO配置
+const seoMetaData = computed(() => {
+  if (!article.value) {
+    return generateArticleSeoMeta({
+      title: '文章加载中',
+      summary: '正在加载文章内容，请稍候...',
+      tags: '优惠,折扣,文章',
+      id: route.params.id
+    })
+  }
+
+  // 从文章内容生成摘要
+  let summary = article.value.summary || article.value.description
+  if (!summary && article.value.content) {
+    // 如果没有摘要，从内容中提取前150个字符作为摘要
+    summary = article.value.content
+      .replace(/<[^>]+>/g, '') // 去除HTML标签
+      .replace(/\s+/g, ' ') // 将多个空白符替换为单个空格
+      .trim()
+      .substring(0, 150) + '...'
+  }
+
+  return generateArticleSeoMeta({
+    title: article.value.title,
+    summary: summary,
+    tags: article.value.tags || article.value.category || '优惠资讯',
+    id: article.value.id,
+    coverImage: article.value.image
+  })
+})
+
+// 应用SEO配置
+useHead(seoMetaData)
 
 // 获取文章详情
 async function fetchArticleDetail() {

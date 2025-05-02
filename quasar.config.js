@@ -12,7 +12,7 @@ export default defineConfig((ctx) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios'],
+    boot: ['i18n', 'axios', 'head'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -44,7 +44,8 @@ export default defineConfig((ctx) => {
 
       // 添加环境变量配置
       env: {
-        VITE_API_BASE_URL: process.env.VITE_API_BASE_URL,
+        VITE_API_BASE_URL:
+          process.env.VITE_API_BASE_URL || 'https://betterdeal-worker1.wenmoon124.workers.dev',
       },
 
       // vueRouterBase,
@@ -98,7 +99,14 @@ export default defineConfig((ctx) => {
       open: true, // opens browser window automatically
       proxy: {
         '/api': {
-          target: process.env.VITE_API_BASE_URL,
+          target:
+            process.env.VITE_API_BASE_URL || 'https://betterdeal-worker1.wenmoon124.workers.dev',
+          changeOrigin: true,
+          secure: false,
+        },
+        '/images': {
+          target:
+            process.env.VITE_API_BASE_URL || 'https://betterdeal-worker1.wenmoon124.workers.dev',
           changeOrigin: true,
           secure: false,
         },

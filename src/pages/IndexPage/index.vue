@@ -27,7 +27,8 @@
               <span class="text-primary">今日特惠</span>
               <small>精选实时优惠，助您轻松购物</small>
             </h2>
-            <q-btn flat rounded color="primary" class="q-px-md" label="查看全部" icon-right="arrow_forward" @click="goToTodayDeals" />
+            <q-btn flat rounded color="primary" class="q-px-md" label="查看全部" icon-right="arrow_forward"
+              @click="goToTodayDeals" />
           </div>
           <div class="row q-col-gutter-md">
             <div v-if="loading.products" class="col-12 loading-container">
@@ -35,7 +36,8 @@
               <div class="loading-text q-mt-sm">加载商品中...</div>
             </div>
             <template v-else>
-              <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="product in displayedProducts" :key="product.id">
+              <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="product in displayedProducts"
+                :key="product.id">
                 <ProductCard :product="formatProductForCard(product)" class="card-component" />
               </div>
             </template>
@@ -51,7 +53,8 @@
               <span class="text-primary">精选优惠资讯</span>
               <small>实时掌握最新优惠动态</small>
             </h2>
-            <q-btn flat rounded color="primary" class="q-px-md" label="浏览全部" icon-right="arrow_forward" @click="goToArticlesList" />
+            <q-btn flat rounded color="primary" class="q-px-md" label="浏览全部" icon-right="arrow_forward"
+              @click="goToArticlesList" />
           </div>
 
           <div class="row q-col-gutter-md">
@@ -88,6 +91,8 @@ defineOptions({
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { useHead } from '@vueuse/head'
+import { generateSeoMeta } from 'src/utils/seo'
 import ProductCard from 'components/ProductCard.vue'
 import CategoryCard from './components/CategoryCard.vue'
 import ArticleCard from './components/ArticleCard.vue'
@@ -95,9 +100,18 @@ import AdminLoginDialog from './components/AdminLoginDialog.vue'
 import { productApi } from 'src/api/products'
 import { articleApi } from 'src/api/articles'
 
+// 配置首页的SEO元数据
+useHead(
+  generateSeoMeta({
+    title: '优惠券和折扣平台 - 帮您省钱的最佳选择',
+    description: '发现最新的优惠券、折扣和促销信息，精选各大电商平台的特价商品和限时优惠，为您提供最佳的购物体验和省钱方案。',
+    keywords: '优惠券,折扣,促销,省钱,购物,特价,限时优惠,电商优惠',
+    url: '/'
+  })
+)
+
 const router = useRouter()
 const $q = useQuasar()
-
 
 // 加载状态
 const loading = ref({

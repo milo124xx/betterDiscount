@@ -25,26 +25,14 @@
           <div class="row q-col-gutter-md">
             <!-- 平台筛选 -->
             <div class="col-md-8 col-sm-12 col-xs-12">
-              <PlatformFilter
-                :platform-options="platformOptions"
-                :selected-platform="selectedPlatform"
-                @update:platform="platformChanged"
-              />
+              <PlatformFilter :platform-options="platformOptions" :selected-platform="selectedPlatform"
+                @update:platform="platformChanged" />
             </div>
 
             <!-- 排序选项 -->
             <div class="col-md-4 col-sm-12 col-xs-12 text-right">
-              <q-select
-                v-model="sortOption"
-                :options="sortOptions"
-                label="排序方式"
-                outlined
-                dense
-                emit-value
-                map-options
-                class="sort-select"
-                @update:model-value="handleSortChange"
-              />
+              <q-select v-model="sortOption" :options="sortOptions" label="排序方式" outlined dense emit-value map-options
+                class="sort-select" @update:model-value="handleSortChange" />
             </div>
           </div>
         </div>
@@ -57,13 +45,8 @@
           </div>
 
           <template v-else-if="products.length > 0">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12"
-                 v-for="product in products"
-                 :key="product.id">
-              <ProductCard
-                :product="formatProductForCard(product)"
-                class="category-product-card"
-              />
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" v-for="product in products" :key="product.id">
+              <ProductCard :product="formatProductForCard(product)" class="category-product-card" />
             </div>
           </template>
 
@@ -76,15 +59,8 @@
 
         <!-- 分页控制区 -->
         <div v-if="totalProducts > 0" class="pagination-section text-center q-py-md">
-          <q-pagination
-            v-model="currentPage"
-            :max="totalPages"
-            :max-pages="6"
-            :boundary-links="true"
-            :boundary-numbers="false"
-            direction-links
-            @update:model-value="handlePageChange"
-          />
+          <q-pagination v-model="currentPage" :max="totalPages" :max-pages="6" :boundary-links="true"
+            :boundary-numbers="false" direction-links @update:model-value="handlePageChange" />
         </div>
       </div>
     </div>
@@ -95,6 +71,8 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { useHead } from '@vueuse/head'
+import { generateCategorySeoMeta } from 'src/utils/seo'
 import ProductCard from 'components/ProductCard.vue'
 import PlatformFilter from './components/PlatformFilter.vue'
 import { productApi } from 'src/api/products'
@@ -141,6 +119,23 @@ const categoryId = computed(() => route.params.id)
 const categoryName = ref('')
 const categoryIcon = ref('category')
 const categoryColor = ref('primary')
+
+// SEO元数据
+const seoMetaData = computed(() => {
+  const categoryInfo = categoryMap[categoryId.value] || {
+    name: '商品分类',
+    value: 'unknown',
+  }
+
+  return generateCategorySeoMeta({
+    id: categoryId.value,
+    name: categoryName.value || categoryInfo.name,
+    keywords: `${categoryName.value},${selectedPlatform.value !== 'all' ? selectedPlatform.value : '全平台'},优惠,折扣,促销,特价`
+  })
+})
+
+// 动态更新SEO元数据
+useHead(seoMetaData)
 
 // 分类映射表 - 从首页复制过来的分类信息
 const categoryMap = {
@@ -312,7 +307,7 @@ async function fetchCategoryProducts() {
     if (products.value.length > 0) {
       console.log('商品分类检查:');
       products.value.forEach((product, index) => {
-        console.log(`商品 ${index+1}: ID=${product.id}, 标题=${product.title}, 分类=${product.category}`);
+        console.log(`商品 ${index + 1}: ID=${product.id}, 标题=${product.title}, 分类=${product.category}`);
       });
     } else {
       console.warn(`未找到分类 ${categoryValue} 的商品`);

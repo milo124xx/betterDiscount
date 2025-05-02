@@ -18,20 +18,10 @@
         <template v-else-if="articles.length > 0">
           <q-card flat bordered class="articles-list-card">
             <q-list separator>
-              <q-item
-                v-for="article in articles"
-                :key="article.id"
-                clickable
-                v-ripple
-                :to="`/article/${article.id}`"
-                class="article-item"
-              >
+              <q-item v-for="article in articles" :key="article.id" clickable v-ripple :to="`/article/${article.id}`"
+                class="article-item">
                 <q-item-section side top v-if="article.image" class="article-image-section">
-                  <q-img
-                    :src="article.image"
-                    :ratio="1"
-                    class="article-thumbnail"
-                  />
+                  <q-img :src="article.image" :ratio="1" class="article-thumbnail" />
                 </q-item-section>
 
                 <q-item-section class="q-py-sm q-px-md">
@@ -59,17 +49,8 @@
 
           <!-- 分页控件 -->
           <div class="pagination-container" v-if="totalPages > 1">
-            <q-pagination
-              v-model="currentPage"
-              :max="totalPages"
-              :max-pages="6"
-              boundary-numbers
-              direction-links
-              boundary-links
-              color="primary"
-              @update:model-value="handlePageChange"
-              class="q-mt-md"
-            />
+            <q-pagination v-model="currentPage" :max="totalPages" :max-pages="6" boundary-numbers direction-links
+              boundary-links color="primary" @update:model-value="handlePageChange" class="q-mt-md" />
             <div class="pagination-info text-grey-7 text-center q-mt-sm">
               共 {{ totalArticles }} 篇文章，当前第 {{ currentPage }}/{{ totalPages }} 页
             </div>
@@ -96,10 +77,22 @@ defineOptions({
 
 import { ref, computed, onMounted } from 'vue'
 import { useQuasar, date } from 'quasar'
+import { useHead } from '@vueuse/head'
+import { generateSeoMeta } from 'src/utils/seo'
 import { articleApi } from 'src/api/articles'
 
 const $q = useQuasar()
 const { formatDate: qFormatDate } = date
+
+// SEO配置
+useHead(
+  generateSeoMeta({
+    title: '优惠资讯文章列表 - 掌握最新优惠动态',
+    description: '浏览最新优惠资讯文章，了解各大电商平台的优惠活动、折扣信息、购物技巧和省钱攻略，让您的网购更加划算。',
+    keywords: '优惠资讯,折扣信息,购物技巧,省钱攻略,优惠券使用,电商活动,淘宝优惠,京东促销,拼多多特价',
+    url: '/articles'
+  })
+)
 
 // 状态变量
 const loading = ref(false)
