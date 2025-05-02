@@ -12,10 +12,10 @@
       content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>"
     />
     <meta name="google-adsense-account" content="ca-pub-4734481133057523" />
-    <!-- 更新内容安全策略，允许所有相关域名 -->
+    <!-- 简化内容安全策略，移除可能导致问题的限制 -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.googlesyndication.com https://*.cloudflareinsights.com; connect-src 'self' https://*.google-analytics.com https://*.cloudflareinsights.com https://betterdeal-worker1.wenmoon124.workers.dev https://*.pages.dev https://*.yulianclub.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://betterdeal-worker1.wenmoon124.workers.dev https://*.pages.dev https://*.yulianclub.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://*.googlesyndication.com https://*.doubleclick.net;"
+      content="default-src * 'self' data:; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; style-src * 'self' 'unsafe-inline'; img-src * 'self' data: blob:; font-src * 'self' data:; connect-src * 'self'; frame-src * 'self';"
     />
 
     <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png" />
