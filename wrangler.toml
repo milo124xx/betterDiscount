@@ -1,0 +1,36 @@
+# wrangler.toml - Cloudflare Pages 配置文件
+
+# 项目名称，应与您在 Cloudflare 上创建的项目名匹配
+name = "betterdeal"
+
+# 主分支名称
+main_branch = "main"
+
+# 构建命令
+build.command = "npm run build"
+
+# 输出目录
+build.output_directory = "dist/spa"
+
+# 环境变量
+[vars]
+VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
+
+# 构建环境
+[build.environment]
+NODE_VERSION = "22.14.0"
+
+# 开发环境配置
+[env.development]
+[env.development.vars]
+VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
+
+# 生产环境配置
+[env.production]
+[env.production.vars]
+VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
+
+# 配置路由规则
+[routes]
+# SPA 回退路由 - 将所有路径指向 index.html
+"/*" = { path = "/index.html", status = 200 }
