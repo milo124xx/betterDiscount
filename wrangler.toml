@@ -3,30 +3,24 @@
 # 项目名称，应与您在 Cloudflare 上创建的项目名匹配
 name = "betterdeal"
 
-# 主分支名称 - 适用于Git集成部署
-main_branch = "main"
-
 # Pages专用配置
-pages_build_output_dir = "dist/spa"
-build.command = "npm run build"
+compatibility_date = "2023-06-28"
+compatibility_flags = ["nodejs_compat"]
 
-# 环境变量
+# 构建输出目录
+[site]
+bucket = "dist/spa"
+
+# 全局环境变量
 [vars]
 VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
 
-# 构建环境
-[build.environment]
-NODE_VERSION = "18.17.1"
-
-# 开发环境配置
-[env.development]
-[env.development.vars]
+# 预览环境配置 (对应原development环境)
+[env.preview]
+[env.preview.vars]
 VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
 
 # 生产环境配置
 [env.production]
 [env.production.vars]
 VITE_API_BASE_URL = "https://betterdeal-worker1.wenmoon124.workers.dev"
-
-# 配置SPA路由 - 现在这个由_redirects文件处理
-# 不再使用[routes]部分，改为依赖_redirects文件
