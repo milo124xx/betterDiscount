@@ -1,5 +1,8 @@
-/* /index.html 200
-/api/* https://yulianclub.com/:splat 200
+# SPA应用程序 fallback - 避免重复规则
+/* /index.html 200!
+
+# API代理 - 使用301重定向而不是200代理
+/api/* https://betterdeal-worker1.wenmoon124.workers.dev/:splat 301
 
 # 允许Cloudflare资源
 /cdn-cgi/* /_cdn-cgi/:splat 200
@@ -8,6 +11,3 @@
 # 正确处理字体资源
 /*.woff /assets/:splat 200
 /*.woff2 /assets/:splat 200
-
-# 处理404错误
-/* /index.html 200
