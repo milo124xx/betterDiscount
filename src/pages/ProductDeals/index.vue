@@ -23,7 +23,6 @@
               <q-breadcrumbs-el label="首页" icon="home" to="/" />
               <q-breadcrumbs-el label="优惠详情" />
             </q-breadcrumbs>
-            </q-breadcrumbs>
           </div>
 
           <div class="product-header">
