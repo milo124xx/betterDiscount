@@ -1,2 +1,13 @@
 /* /index.html 200
 /api/* https://yulianclub.com/:splat 200
+
+# 允许Cloudflare资源
+/cdn-cgi/* /_cdn-cgi/:splat 200
+/assets/* /assets/:splat 200
+
+# 正确处理字体资源
+/*.woff /assets/:splat 200
+/*.woff2 /assets/:splat 200
+
+# 处理404错误
+/* /index.html 200
